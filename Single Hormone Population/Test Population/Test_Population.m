@@ -85,15 +85,23 @@ Ins_Adj_Resc = ones(1,Sim_time+1);
 u_Basal = (TDIRlist(1,nn)/TDIR_Basal_Rate/24)*1000/Weight/60; % basal insulin (mU/kg/min)
 
 for kk = 0:Sim_time
-    if kk == 0
-        u_Total = u_Basal;
-    else
-        u_Total = Ins_Adj_Resc(1,kk)*u_Basal + Bolus(1,kk);
-    end
+    % Set insulin input to a constant derived from TDIR.
+    u_Total = u_Basal;
+
     %% Meal Response
-    [Ug_Plnt,Ml_Vec_Plnt,meal_time,meal_Amount] = GetMealResponse(ModPar,Num_States_Plant,kk,Ts,meal_Amount,meal_time,Meal_Vector,Weight);
+
+    % Set meal variables so they have no effect on calculations.
+    Ug_Plnt = 0;
+    Ur_Plnt = 0;
+    Ml_Vec_Plnt = 0;
+
     %% Exercise Response
-    [M_E_PIU, M_E_PGU, M_E_HGP, PGUA_1_Act] = GetExerciseResponse(kk, PVO2max, PAMM, Ex_Onset_time, Ex_duration, PGUA_1_Act);
+
+    % Set exercise variables so that they have no effect on calculations.
+    M_E_PIU = 1;
+    M_E_PGU = 1;
+    M_E_HGP = 1;
+
     %%
     [Ap,Bp,Cp,Dp] = SH_Glucoregulatory(xm_Plnt, ModPar, Ts, M_E_PIU, M_E_PGU, M_E_HGP);
     xm_Plnt = Ap*xm_Plnt + Bp*u_Total + Dp + Ml_Vec_Plnt*(Ug_Plnt + Ur_Plnt)*Ts;    % y: mmol/kg
@@ -110,7 +118,7 @@ subplot(211); plot(Xaxis_time, BG_Output);
 xhandle = xlabel('time [Day]'); yhandle = ylabel('Glucose [mg/dl]');
 set(xhandle,'Fontsize',Font_size) ; set(xhandle,'Fontname','Timesnewroman');
 set(yhandle,'Fontsize',Font_size) ; set(yhandle,'Fontname','Timesnewroman');
-axis([0 Xaxis_time(1,end) 50 max(BG_Output)+50])
+axis([0 Xaxis_time(1,end) 0 max(BG_Output)+50])
 box('off')
 subplot(212); plot(Xaxis_time, Ins_input);
 xhandle = xlabel('time [Day]'); yhandle = ylabel('Insulin [u/hr]');
