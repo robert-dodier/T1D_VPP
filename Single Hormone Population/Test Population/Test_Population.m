@@ -10,7 +10,7 @@
 clear, clc, %close all
 %% loading the VPP
 load('SingleHormone_VPP.mat'); 
-addpath('..\Create Population');
+addpath (fullfile ('..', 'Create Population'))
 
 Ts = 5;                          % Ts: sampling interval every 5 minutes (min);
 Days_Sim = 4;                    % Number of simulation Days
