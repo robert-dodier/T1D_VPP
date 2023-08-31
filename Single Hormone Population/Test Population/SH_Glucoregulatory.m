@@ -68,6 +68,11 @@ Cp(1,1)=1;
 Delta_t = Ts;
 Cd = Cp; Dd = Dp*Delta_t;
 
+Ap
+Bp
+Cp
+Dp
+
 %% c2d ZOH method
 % s = expm([[Ap Bp]*Ts; zeros(1,Num_States+1)]);
 % Ad = s(1:Num_States,1:Num_States);

@@ -86,7 +86,7 @@ u_Basal = (TDIRlist(1,nn)/TDIR_Basal_Rate/24)*1000/Weight/60; % basal insulin (m
 
 for kk = 0:Sim_time
     % Set insulin input to a constant derived from TDIR.
-    u_Total = u_Basal;
+    u_Total = u_Basal
 
     %% Meal Response
 
@@ -104,7 +104,7 @@ for kk = 0:Sim_time
 
     %%
     [Ap,Bp,Cp,Dp] = SH_Glucoregulatory(xm_Plnt, ModPar, Ts, M_E_PIU, M_E_PGU, M_E_HGP);
-    xm_Plnt = Ap*xm_Plnt + Bp*u_Total + Dp + Ml_Vec_Plnt*(Ug_Plnt + Ur_Plnt)*Ts;    % y: mmol/kg
+    xm_Plnt = Ap*xm_Plnt + Bp*u_Total + Dp + Ml_Vec_Plnt*(Ug_Plnt + Ur_Plnt)*Ts    % y: mmol/kg
     Y_Plant = ((Cp*xm_Plnt)/ModPar(2))*18;
     BG_Output(kk+1) = Y_Plant;
     Ins_input(kk+1) = u_Total * Weight * 60 / 1000;  % convert from mu/kg/min to u/hr
