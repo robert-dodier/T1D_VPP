@@ -12,6 +12,8 @@ clear, clc, %close all
 load('SingleHormone_VPP.mat'); 
 addpath (fullfile ('..', 'Create Population'))
 
+format long g  % print lots of digits in the interest of making results reproducible
+
 Ts = 5;                          % Ts: sampling interval every 5 minutes (min);
 Days_Sim = 4;                    % Number of simulation Days
 Sim_time = Days_Sim*1440/Ts;     % simulation time (sample) 
@@ -84,6 +86,8 @@ Ins_Adj_Resc = ones(1,Sim_time+1);
 % Provide patient with constant basal insulin
 u_Basal = (TDIRlist(1,nn)/TDIR_Basal_Rate/24)*1000/Weight/60; % basal insulin (mU/kg/min)
 
+xm_Plnt_initial = xm_Plnt
+
 for kk = 0:Sim_time
     % Set insulin input to a constant derived from TDIR.
     u_Total = u_Basal
@@ -113,6 +117,7 @@ for kk = 0:Sim_time
 end
 Font_size = 14;
 Xaxis_time = 0:(length(BG_Output)-1); Xaxis_time = Xaxis_time * Ts / 60 /24;
+Xaxis_time_min = (0:(length(BG_Output) - 1)) * Ts;
 figure; 
 subplot(211); plot(Xaxis_time, BG_Output); 
 xhandle = xlabel('time [Day]'); yhandle = ylabel('Glucose [mg/dl]');
@@ -124,3 +129,12 @@ subplot(212); plot(Xaxis_time, Ins_input);
 xhandle = xlabel('time [Day]'); yhandle = ylabel('Insulin [u/hr]');
 set(xhandle,'Fontsize',Font_size) ; set(xhandle,'Fontname','Timesnewroman');
 set(yhandle,'Fontsize',Font_size) ; set(yhandle,'Fontname','Timesnewroman');
+
+Ts
+Sim_time
+xm_Plnt_initial
+display (length (Xaxis_time_min), 'length (Xaxis_time_min)')
+display (length (BG_Output), 'length (BG_Output)')
+% display (Xaxis_time_min' + Ts, 'Xaxis_time_min + Ts')
+% display (BG_Output', 'BG_Output')
+display ([Xaxis_time_min' + Ts, BG_Output'], '[Xaxis_time_min + Ts, BG_Output]')
